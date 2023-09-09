@@ -67,3 +67,39 @@ function startNote(noteDetail, gain) {
   oscillator.start()
   noteDetail.oscillator = oscillator
 }
+// Define your NOTE_DETAILS, audioContext, and constants as before
+
+// Add event listeners for touch events (for mobile support)
+document.addEventListener("touchstart", handleTouchStart);
+document.addEventListener("touchend", handleTouchEnd);
+
+function handleTouchStart(event) {
+  event.preventDefault();
+  const touchedKey = event.target;
+  if (touchedKey.classList.contains("key")) {
+    const noteDetail = getNoteDetailByKeyElement(touchedKey);
+    if (noteDetail) {
+      noteDetail.active = true;
+      playNotes();
+    }
+  }
+}
+
+function handleTouchEnd(event) {
+  event.preventDefault();
+  const touchedKey = event.target;
+  if (touchedKey.classList.contains("key")) {
+    const noteDetail = getNoteDetailByKeyElement(touchedKey);
+    if (noteDetail) {
+      noteDetail.active = false;
+      playNotes();
+    }
+  }
+}
+
+function getNoteDetailByKeyElement(keyElement) {
+  return NOTE_DETAILS.find((n) => n.note === keyElement.getAttribute("data-note"));
+}
+
+// Additional features and enhancements can be added here
+
